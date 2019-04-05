@@ -1,5 +1,6 @@
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const db = require('../database/dbConfig.js');
 
@@ -28,7 +29,6 @@ async function register(req, res) {
 	try {
 		const [id] = await db('users').insert(user);
 		const newUser = await db('users')
-			.select('id', 'username')
 			.where({ id })
 			.first();
 		res.status(201).json(newUser);
@@ -38,8 +38,25 @@ async function register(req, res) {
 	}
 }
 
-function login(req, res) {
-	// implement user login
+async function login(req, res) {
+	let { username, password } = req.body;
+	try {
+		const user = await db('users')
+			.where({ username })
+			.first();
+		if (user && bcrypt.compareSync(password, user.password)) {
+			const token = generateToken(user);
+			res.status(200).json({
+				message: `Welcome, ${user.username}! Token for your troubles?`,
+				token,
+			});
+		} else {
+			res.status(401).json({ message: 'Invalid credentials!' });
+		}
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ message: 'Server error while logging in' });
+	}
 }
 
 function getJokes(req, res) {
@@ -55,4 +72,21 @@ function getJokes(req, res) {
 		.catch(err => {
 			res.status(500).json({ message: 'Error Fetching Jokes', error: err });
 		});
+}
+
+function generateToken(user) {
+	const payload = {
+		subject: user.id,
+		username: user.username,
+	};
+
+	const secret =
+		process.env.JWT_SECRET ||
+		'add a .env file to root of project with the JWT_SECRET variable';
+
+	const options = {
+		expiresIn: '7d',
+	};
+
+	return jwt.sign(payload, secret, options);
 }
