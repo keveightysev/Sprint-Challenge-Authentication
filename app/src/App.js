@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
+
+import Register from './components/Register';
+
 import './App.css';
 
 class App extends Component {
@@ -14,6 +17,7 @@ class App extends Component {
 				</header>
 				<main>
 					<Route path='/' exact component={Default} />
+					<Route path='/register' component={Register} />
 				</main>
 			</div>
 		);
