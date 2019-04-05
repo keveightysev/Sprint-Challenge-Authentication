@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, NavLink } from 'react-router-dom';
 
 import Register from './components/Register';
+import Jokes from './components/Jokes';
 
 import './App.css';
 
@@ -12,12 +13,14 @@ class App extends Component {
 				<header>
 					<h1>You've Got Jokes</h1>
 					<nav>
-						<Link to='/register'>Register</Link>
+						<NavLink to='/register'>Register</NavLink>
+						<NavLink to='/jokes'>Jokes</NavLink>
 					</nav>
 				</header>
 				<main>
 					<Route path='/' exact component={Default} />
 					<Route path='/register' component={Register} />
+					<Route path='/jokes' component={Jokes} />
 				</main>
 			</div>
 		);

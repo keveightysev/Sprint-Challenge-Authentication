@@ -30,6 +30,7 @@ const Register = props => {
 			localStorage.setItem('token', res.data.token);
 			resetUsername();
 			resetPassword();
+			props.history.push('/jokes');
 		} catch (err) {
 			console.log(err);
 		}
