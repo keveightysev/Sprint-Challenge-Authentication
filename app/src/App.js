@@ -3,6 +3,7 @@ import { Route, NavLink } from 'react-router-dom';
 
 import Register from './components/Register';
 import Jokes from './components/Jokes';
+import Login from './components/Login';
 
 import './App.css';
 
@@ -14,6 +15,7 @@ class App extends Component {
 					<h1>You've Got Jokes</h1>
 					<nav>
 						<NavLink to='/register'>Register</NavLink>
+						<NavLink to='/login'>Login</NavLink>
 						<NavLink to='/jokes'>Jokes</NavLink>
 					</nav>
 				</header>
@@ -21,6 +23,7 @@ class App extends Component {
 					<Route path='/' exact component={Default} />
 					<Route path='/register' component={Register} />
 					<Route path='/jokes' component={Jokes} />
+					<Route path='/login' component={Login} />
 				</main>
 			</div>
 		);
